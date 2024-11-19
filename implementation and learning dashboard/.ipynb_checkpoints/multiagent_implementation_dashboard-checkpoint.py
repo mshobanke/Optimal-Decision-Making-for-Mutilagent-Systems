@@ -13,7 +13,6 @@ from DynamicProgramming import value_iteration
 
 import matplotlib.pyplot as plt
 
-#"""## Single Agent Environment"""
 
 class AgentMemory:
     def __init__(self, max_length):
@@ -349,10 +348,6 @@ class QPLEXBuild:
                     training_costs_per_ag_new[k] = training_cost[k] - costs[k]
                 
 
-               # epsilons_per_ag_new = {0: max(epsilon_min, epsilon_per_agent[0]*epsilon_decay), 1:  max(epsilon_min, epsilon_per_agent[1]*epsilon_decay)}
-               # total_costs_per_ag_new = {0: total_cost[0] += costs[0],  1: 0: total_cost[1] += costs[1]}
-               # training_costs_per_ag_new = {0: training_cost[0] -= costs[0], 1:training_cost[1] -= costs[1]}
-
                 #updated_dfs
                 epsilons_per_ag_df = pd.concat([epsilons_per_ag_df, pd.DataFrame([epsilons_per_ag_new])], ignore_index=True)
                 total_costs_per_ag_df = pd.concat([total_costs_per_ag_df, pd.DataFrame([total_costs_per_ag_new])], ignore_index=True)
@@ -485,7 +480,6 @@ if uploaded_file is not None:
         
         
         # use default values instead
-   #     agent_dqn = DQNBuild(environment=transition_matrix_, cost = cost_, num_actions =num_actions, num_states=num_states)
         agents_qplex = QPLEXBuild(num_agents=num_agents, num_states=num_states, num_actions=num_actions, transition_matrices=transition_matrices, costs=costs)
         st.write('All Agents Initialized')
         agents_qplex.train(episodes=5, steps_per_episode=365, use_target_network=True, target_update_period=10, epsilon_decay=0.995, batch_size=128,
