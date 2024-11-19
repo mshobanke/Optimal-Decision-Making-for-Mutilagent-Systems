@@ -8,41 +8,12 @@ from collections import deque
 import random
 import streamlit as st
 
+from AgentDQN import AgentEnvironment, AgentDQN
 from DynamicProgramming import value_iteration
+
 import matplotlib.pyplot as plt
 
 #"""## Single Agent Environment"""
-
-class AgentEnvironment:
-    def __init__(self, environment, cost, num_states):
-        self.environment = environment
-        self.cost = cost
-        self.num_states = num_states
-        self.state = np.random.randint(0, self.num_states)
-
-    def reset(self):
-        # random action to cater for instances where some states were not visited by the agent
-        n_actions = len(self.environment.keys())
-        r_action = np.random.randint(0, n_actions)
-
-        # obtain set of possible start states
-        trans_mat = self.environment[r_action].index.tolist()
-
-        # obtain the starting state
-        self.state = np.random.choice(trans_mat)
-        #self.state = np.random.randint(0, self.num_states)
-        return self.state
-
-    def step(self, state, action):
-        # obtain the possible next states
-        ##
-
-        pos_next_states = self.environment[action].columns.tolist()
-        p_j = self.environment[action].loc[state].values
-        next_state = np.random.choice(pos_next_states, p=p_j)
-        cost = self.cost[action][state]
-        done = False
-        return next_state, cost, done
 
 class AgentMemory:
     def __init__(self, max_length):
@@ -67,23 +38,6 @@ class AgentMemory:
 
     def __len__(self):
         return len(self.memory)
-
-class AgentDQN(tf.keras.Model):
-    def __init__(self, num_states, num_actions, hidden_dim):
-        super(AgentDQN, self).__init__()
-        # Define network layers
-        self.h1 = tf.keras.layers.Dense(hidden_dim, activation='linear', kernel_initializer= tf.keras.initializers.GlorotNormal())
-        self.h2 = tf.keras.layers.Dense(16, activation='linear', kernel_initializer= tf.keras.initializers.GlorotNormal())
-        self.h3 = tf.keras.layers.Dense(8, activation = 'linear', kernel_initializer= tf.keras.initializers.GlorotNormal())
-        self.q_vals = tf.keras.layers.Dense(num_actions, activation='linear')
-
-    def call(self, state_onehot):
-        # forward pass
-        x = self.h1(state_onehot)
-        x = self.h2(x)
-        x = self.h3(x)
-        q_values = self.q_vals(x)
-        return q_values
 
 class MultiAgentEnvironment:
     def __init__(self, num_agents, transition_matrices, costs, num_states):
