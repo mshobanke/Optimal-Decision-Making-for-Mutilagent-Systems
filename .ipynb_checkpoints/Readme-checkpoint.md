@@ -16,7 +16,10 @@ Considering the goal is to minimize cost, the objective of the optimization to s
 
 The Value Iteration Algorithm is defined using the Bellman Equation below:
 
-![Value Iteration](images/Value_Iteration.png)
+$$
+V_n(i) = \min_{a \in A(i)} \left\{ c_i(a) + \sum_{j \in I} p_{ij}(a)V_{n-1}(j) \right\}, \quad i \in I
+$$
+
 (Ref: Stochastic Modeling and Analysis - Henk Tijms)
 
 ### Performance thus far:
