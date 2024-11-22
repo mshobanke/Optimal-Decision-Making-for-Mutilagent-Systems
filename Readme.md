@@ -27,3 +27,7 @@ $$
 Click the links below to view current performance using sample markov chains.
 
 https://github.com/mshobanke/Optimal-Decision-Making-for-Mutilagent-Systems/tree/main/implementation%20and%20learning%20dashboard
+
+## Team
+1. Mobolaji Shobanke
+2. Paul Asamoah
