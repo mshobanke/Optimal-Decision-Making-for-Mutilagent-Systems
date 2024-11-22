@@ -2,7 +2,7 @@
 ---
 This project aims to develop a Deep Reinforcement Learning (DRL) solution to optimize maintenance actions and decision-making in multi-agent systems. Each system is assumed to operate in a decentralized and independent manner, relying solely on its local observation of the environment. The environment consists of three distinct state spaces: Operational, Planned Maintenance, and Corrective Maintenance.
 
-To simulate interactions between agents and their environment, we construct a discrete-time Markov chain using historical data from the equipment. The performance of the proposed DRL network is benchmarked against a baseline Value Iteration Model derived from Dynamic Programming. At a minimum, the DRL approach should produce an optimal policy that matches the performance of the Value Iteration algorithm applied independently to each agent. Some other criteria to be observed are convergence speed (in seconds).
+To simulate interactions between agents and their environment, we construct a discrete-time Markov chain using historical data from the equipment. The performance of the proposed DRL network is benchmarked against a baseline Value Iteration Model derived from Dynamic Programming. At a minimum, the DRL approach should produce an optimal policy that matches the performance of the Value Iteration algorithm applied independently to each agent. Some other criteria to be observed are convergence speed (in seconds) and result reproducibility.
 
 ## Method
 ---
