@@ -88,13 +88,13 @@ class DQNBuild:
 
         return loss
 
-    def train(self, episodes, steps_per_episode, training_cost=1e3, batch_size=32, epsilon=1, epsilon_min=0.01, epsilon_decay=0.995, episodic=False, terminal_period = False,
+    def train(self, episodes, steps_per_episode, batch_size=32, epsilon=1, epsilon_min=0.01, epsilon_decay=0.995, episodic=False, terminal_period = False,
              use_target_network = False, target_update_period = None, convergence_stop = False):
         # initialize old policy to be used for convergence check
         previous_policy = np.zeros(shape=(1, self.num_states))
         state = self.env.reset() # incase episodic is False
 
-        training_cost = training_cost
+        cost_i = 0
         total_cost = 0
         
         # initialize columns for graphing information
@@ -107,14 +107,15 @@ class DQNBuild:
         with cols_[0]:
             st.subheader("Epsilon Decay")
             epsilon_placeholder = st.empty()  # Placeholder for epsilon chart
-        
+
         with cols_[1]:
+            st.subheader("Instantaneous Cost")
+            training_cost_placeholder = st.empty()  # Placeholder for training cost chart 
+
+        with cols_[2]:
             st.subheader("Total Cost")
             total_cost_placeholder = st.empty()  # Placeholder for total cost chart
         
-        with cols_[2]:
-            st.subheader("Training Cost")
-            training_cost_placeholder = st.empty()  # Placeholder for training cost chart
         
         with cols_[3]:
             st.subheader("Loss")
@@ -179,22 +180,22 @@ class DQNBuild:
 
                 # update state and total cost
                 state = next_state
-                training_cost -= cost
+                cost_i = cost
                 total_cost += cost
                 # epsilon decay
                 epsilon = max(epsilon_min, epsilon*epsilon_decay)
 
                 # append other parameters
                 epsilons.append(epsilon)
+                training_costs.append(cost_i)
                 total_costs.append(total_cost)
-                training_costs.append(training_cost)
+
 
                 # plot the graphs
                 epsilon_placeholder.line_chart(epsilons)
+                training_cost_placeholder.line_chart(training_costs[:step_+ 1])
                 total_cost_placeholder.line_chart(total_costs)
-                training_cost_placeholder.line_chart(training_costs)
 
-                
 
             # check for convergence
             # obtain current policy
@@ -202,7 +203,7 @@ class DQNBuild:
             
             if convergence_stop:
                 if np.array_equal(current_policy, previous_policy):
-                    st.subheader(f'Convergence Reached With Statble Policy at {episode}')
+                    st.subheader(f'Convergence Reached With Statble Policy at Episode {episode}')
                     st.subheader(f'Optimal Policy: {current_policy}')
                     break
                 else:
@@ -296,7 +297,7 @@ if uploaded_file is not None:
 
 
     if st.button('Train'):
-        baseline = value_iteration(environment=transition_matrix_, cost=cost_, n_actions=num_actions, tol=0.00001, n_state=num_states)
+        baseline = value_iteration(environment=transition_matrix_, cost=cost_, n_actions=num_actions, tol=0.00001, n_state=num_states, gamma=0.9)
         st.subheader(f'Baseline Model (Value Iteration Algorithm): {baseline}')
         
         # use default values instead

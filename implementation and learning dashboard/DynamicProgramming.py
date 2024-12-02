@@ -11,7 +11,7 @@ import pandas as pd
 # In[ ]:
 
 
-def value_iteration(environment, cost, n_actions, tol, n_state):
+def value_iteration(environment, cost, n_actions, tol, n_state, gamma):
     # Initialize the value function (V) and policy arrays
     v_new = np.zeros(shape=(n_state, 1))
 
@@ -31,7 +31,7 @@ def value_iteration(environment, cost, n_actions, tol, n_state):
                 # Obtain the transition probabilities for the current state and action
                 p_ij = environment[action].loc[state].values
                 # Calculate the value for the state-action pair
-                v_ = (c_i + np.dot(p_ij.reshape(1, -1), v_n)).item()
+                v_ = (c_i + gamma* np.dot(p_ij.reshape(1, -1), v_n)).item()
                 # Append the action value
                 action_value.append(v_)
 
