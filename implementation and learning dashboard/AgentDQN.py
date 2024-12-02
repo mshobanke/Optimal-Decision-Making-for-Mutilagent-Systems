@@ -138,15 +138,6 @@ class DQNBuild:
 
 
     def train_step(self, states, actions, costs, next_states, dones, batch_size, use_target_network, target_update_period):
-        '''
-            predicts the q_values of the current state and the y_values for the current state
-            Args:
-                states: array (one hot encoding of current state)
-                next_states: array (one hot encoding of next state) 
-                dones:
-                costs: cost of each action in current state
-                action: array of selected actions
-        '''
         # obtain the loss function
         mse_ = tf.keras.losses.MeanSquaredError()
 
