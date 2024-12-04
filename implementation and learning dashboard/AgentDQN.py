@@ -83,10 +83,9 @@ class AgentMemory:
 class AgentDQN(tf.keras.Model):
     def __init__(self, num_states, num_actions, hidden_dim):
         super(AgentDQN, self).__init__()
-        # Define network layers
-        self.h1 = tf.keras.layers.Dense(hidden_dim, activation='linear', kernel_initializer=tf.keras.initializers.GlorotNormal())
+        self.h1 = tf.keras.layers.Dense(hidden_dim, activation='linear',kernel_initializer=tf.keras.initializers.GlorotNormal())
         self.h2 = tf.keras.layers.Dense(16, activation='linear', kernel_initializer=tf.keras.initializers.GlorotNormal())
-        self.h3 = tf.keras.layers.Dense(8, activation = 'linear', kernel_initializer=tf.keras.initializers.GlorotNormal())
+        self.h3 = tf.keras.layers.Dense(8, activation='linear', kernel_initializer=tf.keras.initializers.GlorotNormal())
         self.q_vals = tf.keras.layers.Dense(num_actions, activation='linear')
 
     def call(self, state_onehot):

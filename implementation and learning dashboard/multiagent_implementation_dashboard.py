@@ -184,7 +184,7 @@ class QPLEXBuild:
         else:
             # onehot the received agent state
             state_onehot = tf.expand_dims(tf.one_hot(state, self.num_states), axis=0)
-            # predict q_values
+            # predict q_values #
             q_values = self.target_qplex_model.agents_dqns[agent_index](state_onehot)
 
             # select action with minimum q_value
@@ -334,7 +334,7 @@ class QPLEXBuild:
                 # plot the losses
                 fig, ax = plt.subplots(figsize=(5, 4))
                 ax.plot(epochs[:step_+1], losses[:step_+1])
-                #ax.set_ylim(0,20000)   
+                ##ax.set_ylim(0,20000)   
                 loss_placeholder.pyplot(fig)
                 plt.close(fig)
 
@@ -474,7 +474,7 @@ if uploaded_file is not None:
         cols_value = st.columns(num_agents)
         for agent in range(num_agents):
             with cols_value[agent]:
-                baseline = value_iteration(environment=transition_matrices[agent], cost=costs[agent], n_actions=num_actions, tol=0.00001, n_state=num_states)
+                baseline = value_iteration(environment=transition_matrices[agent], cost=costs[agent], n_actions=num_actions, tol=0.00001, n_state=num_states, gamma=0.9)
                 st.subheader(f'Agent {agent}:  {baseline}')
 
         
@@ -482,8 +482,9 @@ if uploaded_file is not None:
         # use default values instead
         agents_qplex = QPLEXBuild(num_agents=num_agents, num_states=num_states, num_actions=num_actions, transition_matrices=transition_matrices, costs=costs)
         st.write('All Agents Initialized')
-        agents_qplex.train(episodes=5, steps_per_episode=365, use_target_network=True, target_update_period=10, epsilon_decay=0.995, batch_size=128,
-                          epsilon=0.0, epsilon_min=0.0)
+        ## changed epsilon here
+        agents_qplex.train(episodes=10, steps_per_episode=365, use_target_network=True, target_update_period=10, epsilon_decay=0.995, batch_size=256,
+                          epsilon=0, epsilon_min=0.0)
 
 
 

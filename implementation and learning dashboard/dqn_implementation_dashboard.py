@@ -167,7 +167,7 @@ class DQNBuild:
                     #for i in range(len(losses)):
                     
                 fig, ax = plt.subplots(figsize=(5, 4))
-                ax.plot(epochs[:step_+1], losses[:step_+1])
+                ax.plot(epochs[: step_+1], losses[:step_+1])
                 #ax.set_ylim(0,4000)   
                 loss_placeholder.pyplot(fig)
                 plt.close(fig)
@@ -303,7 +303,7 @@ if uploaded_file is not None:
         # use default values instead
         agent_dqn = DQNBuild(environment=transition_matrix_, cost = cost_, num_actions =num_actions, num_states=num_states)
         st.write('Agent Initialized')
-        agent_dqn.train(episodes=5, steps_per_episode=365, batch_size=32, epsilon=1, use_target_network=True, target_update_period=10, convergence_stop=True)
+        agent_dqn.train(episodes=5, steps_per_episode=365, batch_size=32, epsilon=1, epsilon_decay = 0.995, use_target_network=True, target_update_period=10, convergence_stop=True)
 
 
     
